@@ -4,73 +4,49 @@
   <meta charset="UTF-8">
   <title>CCNS 嘴砲聊天室</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/TeaMeow/TocasUI/master/dist/tocas.min.css">
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-  <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font: 13px Helvetica, Arial;
-  }
-
-  form {
-    background: #000;
-    padding: 3px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
-
-  form input {
-    border: 0;
-    padding: 10px;
-    width: 90%;
-    margin-right: .5%;
-  }
-
-  form button {
-    width: 9%;
-    background: rgb(130, 224, 255);
-    border: none;
-    padding: 10px;
-  }
-
-  #messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  #messages li {
-    padding: 5px 10px;
-  }
-
-  #messages li:nth-child(odd) {
-    background: #eee;
-  }
-  </style>
-
 </head>
 <body>
-  <ul id="messages"></ul>
-  <form action="">
-    <input id="m" autocomplete="off" />
-    <button>Send</button>
-  </form>
+  <ul class="ts list" id="messages"></ul>
+  <div id="form">
+    <div class="ts input" id="name">
+      <input id="n" autocomplete="off" placeholder="暱稱(10字內英數)" maxlength="10" onkeyup="value=value.replace(/[^\w&@]|_/ig,'')" onblur="value=value.replace(/[^\w&@]|_/ig,'')" />
+    </div>
+    <div class="ts fluid input" id="input">
+      <input id="m" autocomplete="off" placeholder="請輸入留言"/>
+    </div>
+    <div id="btnContainer">
+      <button class="ts button" id="send">Send</button>
+    </div>
+  </div>
 
   <script>
     var socket = io();
-    $('form').submit(function(){
-      socket.emit('chat message', $('#m').val());
-      $('#m').val('');
+    $('#send').click(function(){
+      var msg = $('#m').val();
+      var name = $('#n').val();
+      if (msg != '') {
+        socket.emit('chat message', {name: name, msg: msg});
+        $('#m').val('');
+      }
       return false;
     });
+    $('#input').keydown(function (e){
+      if(e.keyCode == 13){
+        $('#send').click();
+      }
+    })
     socket.on('chat message', function(msg){
-      $('#messages').append($('<li>').text(msg));
+      var li = $('<li>');
+      if (msg.name == '@@@') {
+        li.append($('<div>').addClass('name').append($('<b>').text('[系統訊息]')));
+      } else {
+        li.append($('<div>').addClass('name').text(msg.name + ' 說'));
+      }
+      li.append($('<div>').addClass('msg').text(msg.msg));
+      $('#messages').prepend(li);
     });
   </script>
 </body>
