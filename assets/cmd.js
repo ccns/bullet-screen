@@ -7,9 +7,10 @@ function toHtmlBullet(str){
 }
 
 function toHtmlText(str){
+  str = color(str);
+  str = size(str);
   str = bold(str);
   str = del(str);
-  str = color(str);
   return str;
 }
 
@@ -33,17 +34,28 @@ function color(str){
 }
 
 function size(str){
-  var pounds = str.match(/#+/)[0];
-  var n = pounds.length;
-  if (n<=6)
-    str = '<h' + n + '>' + str.replace(/#+/,'') + '</h' + n + '>'; 
+  var match = str.match(/^#+/);
+  if (match != null) {
+    var pounds = match[0];
+    var n = pounds.length;
+    if (n<=6)
+      str = '<h' + n + '>' + str.replace(/#+/,'') + '</h' + n + '>'; 
+  } else {
+    match = str.match(/">#+/);
+    if (match != null) {
+      var pounds = match[0].substr(2, match[0].length);
+      var n = pounds.length;
+      if (n<=6)
+        str = '<h' + n + '>' + str.replace(/#+/,'') + '</h' + n + '>'; 
+    }
+  }
   return str;
 }
 
 function bold(str){
   var n = str.search(/\*\*.+\*\*/);
   while( n > -1 ){
-    var s = str.substr(n, str.length).replace('**','<b>').replace('**','</b>');
+    var s = str.substr(n, str.length).replace('**','<strong>').replace('**','</strong>');
     str = str.substr(0, n) + s;
     n = str.search(/\*\*.+\*\*/);
   }
