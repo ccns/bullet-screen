@@ -1,0 +1,23 @@
+{
+  "name": "bullet-screen",
+  "version": "1.0.0",
+  "description": "A bullet screen application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccns/bullet-screen.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ccns/bullet-screen/issues"
+  },
+  "homepage": "https://github.com/ccns/bullet-screen#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8"
+  }
+}
