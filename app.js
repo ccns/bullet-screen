@@ -20,6 +20,12 @@ io.on('connection', function(socket){
     console.log(msg.name + ' says: ' + msg.msg);
     io.emit('chat message', msg);
   });
+
+  socket.on('welcome back', function(msg){
+    console.log(msg.name + ' is back!');
+    io.emit('welcome back', msg);
+    io.emit('chat message', {name: '@@@', msg: msg.name + ' 回來了！歡迎他！'});
+  });
 });
 
 http.listen(3000, function(){
