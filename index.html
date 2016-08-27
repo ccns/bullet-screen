@@ -77,7 +77,7 @@
     $('#messages').height(wh-fh-mh);
 
     var socket = io();
-    if(typeof Cookies.get('name') != 'undefine') {
+    if(typeof Cookies.get('name') != 'undefined') {
       $('#n').val(Cookies.get('name'));
       socket.emit('welcome back', {name: Cookies.get('name')});
     }
