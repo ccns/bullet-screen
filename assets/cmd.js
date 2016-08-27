@@ -18,15 +18,18 @@ function color(str){
   var cmd = str.split(' ')[0];
   switch(cmd){
   case '/red':
-    str = str.substr('/red'.length + 1, str.length);
+  case '/r':
+    str = str.substr(cmd.length + 1, str.length);
     str = '<font color="red">' + str + '</font>';
     break;
   case '/blue':
-    str = str.substr('/blue'.length + 1, str.length);
+  case '/b':
+    str = str.substr(cmd.length + 1, str.length);
     str = '<font color="blue">' + str + '</font>';
     break;
   case '/green':
-    str = str.substr('/green'.length + 1, str.length);
+  case '/g':
+    str = str.substr(cmd.length + 1, str.length);
     str = '<font color="green">' + str + '</font>';
     break;
   }

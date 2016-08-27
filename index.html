@@ -24,6 +24,11 @@
   </div>
 
   <script>
+    var wh = $(window).height();
+    var ww = $(window).width();
+    var fh = $('#form').height();
+    $('#messages').height(wh-fh);
+
     var socket = io();
     $('#send').click(function(){
       var msg = $('#m').val();
@@ -49,8 +54,30 @@
 
       var html = toHtmlText(msg.msg);
       li.append($('<div>').addClass('msg').html(html));
-      $('#messages').prepend(li);
+      $('#messages').append(li);
+      $('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 300);
+      shoot(html);
     });
+
+    var n = 0;
+    function shoot(html){
+      var id = 'b' + n;
+      var w = ww + 50;
+      var h = (wh - 50 - 100) * Math.random() + 50;
+      var m = $('<span>').addClass('bullet')
+                      .attr('id', id)
+                      .html(html)
+                      .css({left: w, top: h});
+      $('body').append(m);
+      setTimeout(function(){
+        var nm = $('#'+id);
+        var mw = nm.width() + 100;
+        nm.animate({left: -mw}, 10000, function(){
+          $('#'+id).remove();
+        });
+      }, 500);
+      n++;
+    }
   </script>
 </body>
 </html>
