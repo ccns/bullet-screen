@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CCNS 嘴砲聊天室</title>
+  <title>CCNS 嘴砲聊天室</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/TeaMeow/TocasUI/master/dist/tocas.min.css">
   <script src="/socket.io/socket.io.js"></script>
@@ -10,6 +10,14 @@
   <script src="cmd.js"></script>
 </head>
 <body>
+  <div class="ts info borderless menu" id="menu">
+    <a href="#!" class="large screen only header item">CCNS 嘴砲聊天室</a>
+    <a href="#!" class="item" id="show-doc">使用說明</a>
+    <div class="right menu">
+        <a target="_blank" href="http://web.ccns.ncku.edu.tw/" class="item">CCNS</a>
+        <a target="_blank" href="https://github.com/ccns/bullet-screen" class="item">Github</a>
+    </div>
+  </div>
   <ul class="ts list" id="messages"></ul>
   <div id="form">
     <div class="ts input" id="name">
@@ -23,11 +31,47 @@
     </div>
   </div>
 
+  <div class="ts container" id="doc">
+    <div class="ts raised jumbotron">
+      <h3 class="ts header">使用說明
+          <div class="sub header">輸入暱稱(限10字內英文數字)及留言並送出即可留言</div>
+      </h3>
+      <h4 class="ts header">指令列表</h4>
+      <table class="ts table">
+        <thead>
+            <tr>
+                <td>指令</td>
+                <td>說明</td>
+                <td>舉例</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="ts center aligned">#</br>...</br>######</td>
+                <td>標題文字</br>Header 1</br>...</br>Header 6</td>
+                <td>###可以讓字變大</br><h3>可以讓字變大</h3></td>
+            </tr>
+            <tr>
+                <td class="ts center aligned">/red, /r</br>/blue, /b</br>/green, /g</br></td>
+                <td>文字顏色</br><font color="red">紅</font><font color="blue">藍</font><font color="green">綠</font></td>
+                <td>/g 綠色的文字</br><font color="green">綠色的文字</font></br>/red 紅色的文字</br><font color="red">紅色的文字</font></td>
+            </tr>
+            <tr>
+                <td class="ts center aligned">--[文字]--</br>**[文字]**</td>
+                <td><del>刪除線</del></br><strong>粗體</strong></td>
+                <td>我想**強調這個**，--不要這個--</br>我想<strong>強調這個</strong>，<del>不要這個</del></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <script>
     var wh = $(window).height();
     var ww = $(window).width();
     var fh = $('#form').height();
-    $('#messages').height(wh-fh);
+    var mh = $('#menu').height();
+    $('#messages').height(wh-fh-mh);
 
     var socket = io();
     $('#send').click(function(){
@@ -78,6 +122,15 @@
       }, 500);
       n++;
     }
+
+    $('#show-doc').click(function() {
+      $('#doc').fadeIn(function(){
+        $('body').click(function() {
+          $('#doc').fadeOut();
+          $('body').unbind('click');
+        });
+      });
+    });
   </script>
 </body>
 </html>
