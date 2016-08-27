@@ -11,14 +11,16 @@
 </head>
 <body>
   <div class="ts info borderless menu" id="menu">
-    <a href="#!" class="large screen only header item">CCNS 嘴砲聊天室</a>
+    <a href="#!" class="mobile-hidden item">CCNS 嘴砲聊天室</a>
     <a href="#!" class="item" id="show-doc">使用說明</a>
     <div class="right menu">
         <a target="_blank" href="http://web.ccns.ncku.edu.tw/" class="item">CCNS</a>
         <a target="_blank" href="https://github.com/ccns/bullet-screen" class="item">Github</a>
     </div>
   </div>
-  <ul class="ts list" id="messages"></ul>
+  <ul class="ts list" id="messages">
+    <li><div class="name"><b>[系統訊息]</b></div><div class="msg">歡迎光臨，輸入暱稱(限英文及數字10字內)及留言內容即可留言(ゝ∀･)</div></li>
+  </ul>
   <div id="form">
     <div class="ts input" id="name">
       <input id="n" autocomplete="off" placeholder="暱稱(10字內英數)" maxlength="10" onkeyup="value=value.replace(/[^\w&@]|_/ig,'')" onblur="value=value.replace(/[^\w&@]|_/ig,'')" />
@@ -49,17 +51,17 @@
             <tr>
                 <td class="ts center aligned">#</br>...</br>######</td>
                 <td>標題文字</br>Header 1</br>...</br>Header 6</td>
-                <td>###可以讓字變大</br><h3>可以讓字變大</h3></td>
+                <td>##可以讓字變大</br><h2>可以讓字變大</h2></br>######井字號多越小，最多6個</br><h6>井字號多越小，最多6個</h6></td>
             </tr>
             <tr>
-                <td class="ts center aligned">/red, /r</br>/blue, /b</br>/green, /g</br></td>
+                <td class="ts center aligned">/red,/r</br>/blue,/b</br>/green,/g</br></td>
                 <td>文字顏色</br><font color="red">紅</font><font color="blue">藍</font><font color="green">綠</font></td>
                 <td>/g 綠色的文字</br><font color="green">綠色的文字</font></br>/red 紅色的文字</br><font color="red">紅色的文字</font></td>
             </tr>
             <tr>
                 <td class="ts center aligned">--[文字]--</br>**[文字]**</td>
                 <td><del>刪除線</del></br><strong>粗體</strong></td>
-                <td>我想**強調這個**，--不要這個--</br>我想<strong>強調這個</strong>，<del>不要這個</del></td>
+                <td>我想**強調這個**</br>我想<strong>強調這個</strong></td>
             </tr>
         </tbody>
       </table>
