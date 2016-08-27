@@ -119,8 +119,8 @@
     var n = 0;
     function shoot(html){
       var id = 'b' + n;
-      var w = ww + 50;
-      var h = (wh - 50 - 100) * Math.random() + 50;
+      var w = $(window).width() + 50;
+      var h = ($(window).height() - 50 - 100) * Math.random() + 50;
       var m = $('<span>').addClass('bullet')
                       .attr('id', id)
                       .html(html)
