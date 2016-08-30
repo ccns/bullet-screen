@@ -81,7 +81,7 @@ body {
   z-index: 5;
 }
 
-#doc {
+.modal {
   position: relative;
   z-index: 10;
   display: none;
@@ -95,4 +95,8 @@ body {
 .mobile-hidden {
     display: none !important;
 }
+}
+
+.kaomoji {
+  margin-top: 5px;
 }

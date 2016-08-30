@@ -14,6 +14,7 @@
   <div class="ts info borderless menu" id="menu">
     <a href="#!" class="mobile-hidden item">CCNS 嘴砲聊天室</a>
     <a href="#!" class="item" id="show-doc">使用說明</a>
+    <a href="#!" class="item" id="show-kaomoji">顏文字輸入</a>
     <div class="right menu">
         <a target="_blank" href="http://web.ccns.ncku.edu.tw/" class="item">CCNS</a>
         <a target="_blank" href="https://github.com/ccns/bullet-screen" class="item">Github</a>
@@ -34,7 +35,7 @@
     </div>
   </div>
 
-  <div class="ts container" id="doc">
+  <div class="ts container modal" id="doc">
     <div class="ts raised jumbotron">
       <h3 class="ts header">使用說明
           <div class="sub header">輸入暱稱(限10字內英文數字)及留言並送出即可留言</div>
@@ -69,12 +70,43 @@
     </div>
   </div>
 
+  <div class="ts container modal" id="kaomoji">
+    <div class="ts raised jumbotron">
+      <h3 class="ts header">顏文字輸入
+          <div class="sub header">點擊會自動填入輸入框裡面</div>
+      </h3>
+      <table class="">
+        <tbody>
+            <tr>
+                <td class="ts button kaomoji"><(╹ヮ╹)></td>
+                <td class="ts button kaomoji">( ͡° ͜ʖ ͡°)</td>
+                <td class="ts button kaomoji">⊙ω⊙</td>
+                <td class="ts button kaomoji">(ゝ∀･)</td>
+            </tr>
+            <tr>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+            </tr>
+            <tr>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+                <td class="ts button kaomoji"></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <script>
     var wh = $(window).height();
     var ww = $(window).width();
     var fh = $('#form').height();
     var mh = $('#menu').height();
     $('#messages').height(wh-fh-mh);
+    $('#messages').css('top', mh);
 
     var socket = io();
     if(typeof Cookies.get('name') != 'undefined') {
@@ -143,6 +175,19 @@
           $('body').unbind('click');
         });
       });
+    });
+
+    $('#show-kaomoji').click(function() {
+      $('#kaomoji').fadeIn(function(){
+        $('body').click(function() {
+          $('#kaomoji').fadeOut();
+          $('body').unbind('click');
+        });
+      });
+    });
+
+    $('.kaomoji').click(function (){
+      $('#m').val( $('#m').val() + $(this).text() );
     });
   </script>
 </body>
