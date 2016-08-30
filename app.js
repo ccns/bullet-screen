@@ -9,10 +9,15 @@ app.get('/', function(req, res){
 
 app.use(express.static(__dirname + '/assets'));
 
+var n = 0;
 io.on('connection', function(socket){
-  console.log('a user connected');
+  n++;
+  console.log('a user connected, current users: ' + n);
+  io.emit('online users', n);
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    n--;
+    console.log('user disconnected, current users: ' + n);
+    io.emit('online users', n);
   });
 
   socket.on('chat message', function(msg){

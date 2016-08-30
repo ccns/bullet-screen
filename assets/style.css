@@ -100,3 +100,10 @@ body {
 .kaomoji {
   margin-top: 5px;
 }
+
+.online {
+  position: fixed;
+  right: 10px;
+  bottom: 52px;
+  color: #AAA;
+}
