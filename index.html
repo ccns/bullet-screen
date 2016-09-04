@@ -9,6 +9,7 @@
   <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.2/js.cookie.js"></script>
   <script src="cmd.js"></script>
+  <script src="egg.js"></script>
 </head>
 <body>
   <div class="ts info borderless menu" id="menu">
@@ -111,67 +112,6 @@
     $('#messages').height(wh-fh-mh);
     $('#messages').css('top', mh);
 
-    var socket = io();
-    if(typeof Cookies.get('name') != 'undefined') {
-      $('#n').val(Cookies.get('name'));
-      socket.emit('welcome back', {name: Cookies.get('name')});
-    }
-
-    $('#send').click(function(){
-      var msg = $('#m').val();
-      var name = $('#n').val();
-      Cookies.set('name', name);
-      if (msg != '') {
-        socket.emit('chat message', {name: name, msg: msg});
-        $('#m').val('');
-      }
-      return false;
-    });
-    $('#input').keydown(function (e){
-      if(e.keyCode == 13){
-        $('#send').click();
-      }
-    })
-    socket.on('chat message', newMsg);
-    socket.on('online users', function(n){
-      $('#users').text(n);
-    });
-    
-    function newMsg(msg) {
-      var li = $('<li>');
-      if (msg.name == '@@@') {
-        li.append($('<div>').addClass('name').append($('<b>').text('[系統訊息]')));
-      } else {
-        li.append($('<div>').addClass('name').text(msg.name + ' 說'));
-      }
-
-      var html = toHtmlText(msg.msg);
-      li.append($('<div>').addClass('msg').html(html));
-      $('#messages').append(li);
-      $('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 300);
-      shoot(html);
-    }
-
-    var n = 0;
-    function shoot(html){
-      var id = 'b' + n;
-      var w = $(window).width() + 50;
-      var h = ($(window).height() - 50 - 100) * Math.random() + 50;
-      var m = $('<span>').addClass('bullet')
-                      .attr('id', id)
-                      .html(html)
-                      .css({left: w, top: h});
-      $('body').append(m);
-      setTimeout(function(){
-        var nm = $('#'+id);
-        var mw = nm.width() + 100;
-        nm.animate({left: -mw}, 10000, function(){
-          $('#'+id).remove();
-        });
-      }, 500);
-      n++;
-    }
-
     $('#show-doc').click(function() {
       $('#doc').fadeIn(function(){
         $('body').click(function() {
@@ -193,6 +133,116 @@
     $('.kaomoji').click(function (){
       $('#m').val( $('#m').val() + $(this).text() );
     });
+
+  </script>
+
+  <script>
+    // socket.io
+    var socket = io();
+
+    // welcome back
+    if(typeof Cookies.get('name') != 'undefined') {
+      $('#n').val(Cookies.get('name'));
+      socket.emit('welcome back', {name: Cookies.get('name')});
+    }
+
+    // send message
+    $('#send').click(function(){
+      var msg = $('#m').val();
+      var name = $('#n').val();
+      Cookies.set('name', name);
+      if (msg != '') {
+        socket.emit('chat message', {name: name, msg: msg});
+        $('#m').val('');
+      }
+      return false;
+    });
+    $('#input').keydown(function (e){
+      if(e.keyCode == 13){
+        $('#send').click();
+      }
+    })
+
+    // easter egg
+    console.log('%c你找到彩蛋囉wwwww', 'font-size: 2em; color: red;');
+    console.log('%c在訊息框中輸入指令後按' + '%cCTRL+/' + '%c可送出大型AA彈幕!!', 
+                'font-size: 1.2em;', 'font-size: 1.2em; color: red', 'font-size: 1.2em;');
+    console.log('%c目前有以下指令: miku', 'font-size: 1.2em;');
+    var cmd = '';
+    $(document).keydown(function(e) {
+      //console.log(e.keyCode);
+      if (e.keyCode == 191 && e.ctrlKey) {
+        var msg = $('#m').val();
+        var name = $('#n').val();
+        socket.emit('easter egg', {name: name, cmd: msg});
+        $('#m').val('');
+      }
+    });
+
+  </script>
+
+  <script>
+    // recevie event
+    socket.on('chat message', newMsg);
+    socket.on('online users', function(n){
+      $('#users').text(n);
+    });
+    socket.on('easter egg', easter);
+
+    // receive handler
+    function newMsg(msg) {
+      var li = $('<li>');
+      if (msg.name == '@@@') {
+        li.append($('<div>').addClass('name').append($('<b>').text('[系統訊息]')));
+      } else {
+        li.append($('<div>').addClass('name').text(msg.name + ' 說'));
+      }
+
+      var html = toHtmlText(msg.msg);
+      li.append($('<div>').addClass('msg').html(html));
+      $('#messages').append(li);
+      $('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 300);
+      shoot(html);
+    }
+
+    function easter(msg) {
+      shoot(AA(msg.cmd));
+    }
+
+  </script>
+
+  <script>
+    // functions
+    var n = 0;
+    function shoot(html){
+      var id = 'b' + n;
+      var w = $(window).width() + 50;
+      var h = ($(window).height() - 50 - 100) * Math.random() + 50;
+      var m = $('<span>').addClass('bullet')
+                      .attr('id', id)
+                      .html(html)
+                      .css({left: w, top: h});
+      $('body').append(m);
+      setTimeout(function(){
+        var nm = $('#'+id);
+        var mw = nm.width() + 100;
+        var mh = nm.height();
+        var mt = nm.position().top;
+        if ( (mt+mh) > $(window).height() ){
+          nm.css('top', 'auto');
+          nm.css('bottom', '55px');
+        }
+        nm.animate({left: -mw}, 10000, function(){
+          $('#'+id).remove();
+        });
+      }, 500);
+      n++;
+    }
+
+    function staticShoot(html) {
+      $('body').append('<div class="staticBullet">' + html + '</div>');
+    }
+
   </script>
 </body>
 </html>

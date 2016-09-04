@@ -31,6 +31,11 @@ io.on('connection', function(socket){
     io.emit('welcome back', msg);
     io.emit('chat message', {name: '@@@', msg: msg.name + ' 回來了！歡迎他！'});
   });
+
+  socket.on('easter egg', function(msg){
+    console.log(msg.name + ' send ' + msg.cmd + '!');
+    io.emit('easter egg', msg);
+  });
 });
 
 var port = process.env.PORT || 3000;
