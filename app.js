@@ -32,9 +32,20 @@ io.on('connection', function(socket){
     io.emit('chat message', {name: '@@@', msg: msg.name + ' 回來了！歡迎他！'});
   });
 
-  socket.on('easter egg', function(msg){
+  socket.on('aa', function(msg){
     console.log(msg.name + ' send ' + msg.cmd + '!');
-    io.emit('easter egg', msg);
+    io.emit('aa', msg);
+  });
+
+  socket.on('firework', function(msg){
+    var length = Math.floor(Math.random()*15 + 5);
+    var f = '‧:*‧°☆*';
+    var fire = '';
+    for (var i=0; i<length; i++) {
+      fire = fire + f;
+    }
+    console.log(msg.name + ' send firework! length: ' + length);
+    io.emit('firework', {name: msg.name, fire: fire});
   });
 });
 

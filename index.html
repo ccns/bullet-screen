@@ -99,6 +99,9 @@
                 <td class="ts button kaomoji">̿̿ ̿̿ ̿̿ ̿'̿'\̵͇̿̿\з= ( ▀ ͜͞ʖ▀) =ε/̵͇̿̿/’̿’̿ ̿ ̿̿ ̿̿ ̿̿</td>
                 <td class="ts button kaomoji">( ﾟ∀ﾟ)ｱﾊﾊﾊ八八八ﾉ ヽﾉ ヽﾉ ヽ</td>
             </tr>
+            <tr>
+                <td class="ts button kaomoji">灑花 (*￣▽￣)/‧☆*"`'*-.,_,.-*'`"*-.,_☆</td>
+            </tr>
         </tbody>
       </table>
     </div>
@@ -168,14 +171,24 @@
     console.log('%c在訊息框中輸入指令後按' + '%cCTRL+/' + '%c可送出大型AA彈幕!!', 
                 'font-size: 1.2em;', 'font-size: 1.2em; color: red', 'font-size: 1.2em;');
     console.log('%c目前有以下指令: miku shinobu kotori niconicodesu mami', 'font-size: 1.2em;');
-    var cmd = '';
+    var secret = "&&((%'%'BA";
+    var now = 0;
     $(document).keydown(function(e) {
       //console.log(e.keyCode);
       if (e.keyCode == 191 && e.ctrlKey) {
         var msg = $('#m').val();
         var name = $('#n').val();
-        socket.emit('easter egg', {name: name, cmd: msg});
+        socket.emit('aa', {name: name, cmd: msg});
         $('#m').val('');
+      }
+      if (e.keyCode == secret.charCodeAt(now)){
+        now++;
+      } else if (now > 9 && e.keyCode == 65) {
+        console.log('fire!');
+        socket.emit('firework', {name: name});
+        now = ++now%100;
+      } else {
+        now=0;
       }
     });
 
@@ -187,7 +200,8 @@
     socket.on('online users', function(n){
       $('#users').text(n);
     });
-    socket.on('easter egg', easter);
+    socket.on('aa', aa);
+    socket.on('firework', firework);
 
     // receive handler
     function newMsg(msg) {
@@ -205,10 +219,13 @@
       shoot(html);
     }
 
-    function easter(msg) {
+    function aa(msg) {
       shoot(AA(msg.cmd));
     }
 
+    function firework(msg) {
+      shoot(msg.fire);
+    }
   </script>
 
   <script>
