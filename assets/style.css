@@ -95,6 +95,9 @@ body {
 .mobile-hidden {
     display: none !important;
 }
+.name {
+  width: 100px !important;
+}
 }
 
 .kaomoji {
@@ -110,4 +113,12 @@ body {
 
 .AA {
   font-family: "MS PGothic", "ＭＳ Ｐゴシック", "Trebuchet MS", Verdana, Futura, Arial, Helvetica, sans-serif;
+}
+
+.staticBullet {
+  position: fixed;
+  bottom: 0px;
+  font-size: 2em;
+  text-shadow: 0px 0px 10px #888;
+  z-index: 5;
 }

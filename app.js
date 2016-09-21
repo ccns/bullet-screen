@@ -29,12 +29,13 @@ io.on('connection', function(socket){
   socket.on('welcome back', function(msg){
     console.log(msg.name + ' is back!');
     io.emit('welcome back', msg);
-    io.emit('chat message', {name: '@@@', msg: msg.name + ' 回來了！歡迎他！'});
+    io.emit('chat message', {name: '@@@', msg: msg.name + ' 回來了！歡迎他！', shoot: true});
   });
 
   socket.on('aa', function(msg){
     console.log(msg.name + ' send ' + msg.cmd + '!');
     io.emit('aa', msg);
+    io.emit('chat message', {name: '@@@', msg: msg.name + ' 送出了超大型' + cmdToText(msg.cmd) + '!', shoot: false});
   });
 
   socket.on('firework', function(msg){
@@ -53,3 +54,18 @@ var port = process.env.PORT || 3000;
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
+
+function cmdToText(cmd){
+  switch(cmd){
+  case 'miku':
+    return '初音';
+  case 'shinobu':
+    return '小忍';
+  case 'kotori':
+    return '小鳥醬';
+  case 'niconicodesu':
+    return '妮可醬';
+  case 'mami':
+    return '麻美學姐';
+  }
+}

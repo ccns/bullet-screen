@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CCNS 嘴砲聊天室</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>CCNS 嘴砲聊天室</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="//cdn.rawgit.com/TeaMeow/TocasUI/master/dist/tocas.min.css">
   <script src="/socket.io/socket.io.js"></script>
@@ -10,6 +11,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.2/js.cookie.js"></script>
   <script src="cmd.js"></script>
   <script src="egg.js"></script>
+  <script src="shake.js"></script>
+  <script src="ismobile.js"></script>
 </head>
 <body>
   <div class="ts info borderless menu" id="menu">
@@ -155,7 +158,7 @@
       var name = $('#n').val();
       Cookies.set('name', name);
       if (msg != '') {
-        socket.emit('chat message', {name: name, msg: msg});
+        socket.emit('chat message', {name: name, msg: msg, shoot: true});
         $('#m').val('');
       }
       return false;
@@ -192,6 +195,14 @@
       }
     });
 
+    if (isMobile){
+      $('.online').click(function(){
+        alert('找到彩蛋囉ww');
+        alert('輸入框中輸入以下指令並搖一搖手機可送出大型AA彈幕');
+        alert('目前有: miku shinobu kotori niconicodesu mami');
+      });
+    }
+
   </script>
 
   <script>
@@ -216,15 +227,21 @@
       li.append($('<div>').addClass('msg').html(html));
       $('#messages').append(li);
       $('#messages').animate({scrollTop: $('#messages').prop("scrollHeight")}, 300);
-      shoot(html);
+      if (!isMobile)
+        if(msg.shoot) shoot(html);
     }
 
     function aa(msg) {
-      shoot(AA(msg.cmd));
+      if (!isMobile)
+        if (msg.cmd == 'kotori')
+          staticShoot(AA(msg.cmd));
+        else
+          shoot(AA(msg.cmd));
     }
 
     function firework(msg) {
-      shoot(msg.fire);
+      if (!isMobile)
+        shoot(msg.fire);
     }
   </script>
 
@@ -256,10 +273,26 @@
       n++;
     }
 
+    var m = 0;
     function staticShoot(html) {
-      $('body').append('<div class="staticBullet">' + html + '</div>');
+      var id = 'sb' + m;
+      $('body').append('<div class="staticBullet" id="' + id + '">' + html + '</div>');
+      setTimeout(function() {
+        $('#'+id).remove();
+      }, 5000);
     }
 
+  </script>
+
+  <script>
+    var myShakeEvent = new Shake(); 
+    myShakeEvent.start();
+    $(window).on('shake', function(){
+      var msg = $('#m').val();
+      var name = $('#n').val();
+      socket.emit('aa', {name: name, cmd: msg});
+      $('#m').val('');
+    })
   </script>
 </body>
 </html>
