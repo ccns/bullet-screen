@@ -15,22 +15,28 @@ body {
 }
 
 #name {
+  flex: none;
   padding: 5px;
-  -webkit-flex: none;
-          flex: 200px;
+  width: 150px;
+}
+
+#name #n {
+  width: 100%;
 }
 
 #input {
+  flex: 1;
   padding: 5px;
-  -webkit-flex: initial;
-          flex: initial;
 }
 
 #btnContainer {
+  flex: none;
   padding: 5px;
-  -webkit-flex: none;
-          flex: none;
-  width: 80px;
+  width: 90px;
+}
+
+#btnContainer button {
+  width: 100%;
 }
 
 #messages {
@@ -93,10 +99,20 @@ body {
 
 @media (max-width: 768px) {
 .mobile-hidden {
-    display: none !important;
+  display: none !important;
 }
 .name {
   width: 100px !important;
+}
+#name {
+  width: 100px;
+}
+#btnContainer {
+  width: 70px;
+}
+#btnContainer button {
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
 }
 }
 
