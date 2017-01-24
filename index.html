@@ -26,6 +26,7 @@
   </div>
   <ul class="ts list" id="messages">
     <li><div class="name"><b>[系統訊息]</b></div><div class="msg">歡迎光臨，輸入暱稱(限英文及數字10字內)及留言內容即可留言(ゝ∀･)</div></li>
+    <li><div class="name"><b>[系統訊息]</b></div><div class="msg">目前正在討論下學期社博～會議記錄: <a href="https://hackmd.io/OwTgxgZgHAJgbBAtMARgUzYgLGgzGREAViyQEMUzS5iwiVcg?view">Hackmd</a></div></li>
   </ul>
   <div class="online">在線人數: <span id="users"></span></div>
   <div id="form">
@@ -171,7 +172,7 @@
 
     // easter egg
     console.log('%c你找到彩蛋囉wwwww', 'font-size: 2em; color: red;');
-    console.log('%c在訊息框中輸入指令後按' + '%cCTRL+/' + '%c可送出大型AA彈幕!!', 
+    console.log('%c在訊息框中輸入指令後按' + '%cCTRL+/' + '%c可送出大型AA彈幕!!',
                 'font-size: 1.2em;', 'font-size: 1.2em; color: red', 'font-size: 1.2em;');
     console.log('%c目前有以下指令: miku shinobu kotori niconicodesu mami', 'font-size: 1.2em;');
     var secret = "&&((%'%'BA";
@@ -285,7 +286,7 @@
   </script>
 
   <script>
-    var myShakeEvent = new Shake(); 
+    var myShakeEvent = new Shake();
     myShakeEvent.start();
     $(window).on('shake', function(){
       var msg = $('#m').val();

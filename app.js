@@ -33,9 +33,11 @@ io.on('connection', function(socket){
   });
 
   socket.on('aa', function(msg){
-    console.log(msg.name + ' send ' + msg.cmd + '!');
-    io.emit('aa', msg);
-    io.emit('chat message', {name: '@@@', msg: msg.name + ' 送出了超大型' + cmdToText(msg.cmd) + '!', shoot: false});
+    if (msg.cmd) {
+      console.log(msg.name + ' send ' + msg.cmd + '!');
+      io.emit('aa', msg);
+      io.emit('chat message', {name: '@@@', msg: msg.name + ' 送出了超大型' + cmdToText(msg.cmd) + '!', shoot: false});
+    }
   });
 
   socket.on('firework', function(msg){
